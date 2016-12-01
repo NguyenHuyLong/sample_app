@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
     update_attributes remember_digest: nil
   end
 
+  def current_user? user
+    self == user
+  end
+
   private
   def downcase
     self.email.downcase
