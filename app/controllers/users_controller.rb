@@ -12,6 +12,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @microposts = @user.microposts.order(created_at: :desc).
+      paginate page: params[:page]
   end
 
   def new
@@ -59,14 +61,6 @@ class UsersController < ApplicationController
 
   def load_gender
     @genders = User.genders.keys.map(&:capitalize)
-  end
-
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "Please log in"
-      redirect_to login_url
-    end
   end
 
   def correct_user
