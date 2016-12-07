@@ -7,6 +7,11 @@ class Micropost < ActiveRecord::Base
   validates :content, presence: true, length: {maximum: 140}
   validate :picture_size
 
+  scope :order_by_created_at, -> {order created_at: :desc}
+  scope :feeds, -> id {where("user_id IN
+    (SELECT followed_id FROM relationships WHERE follower_id = :user_id)
+    OR user_id = :user_id", user_id: id)}
+
   private
   def picture_size
     if picture.size > 5.megabytes

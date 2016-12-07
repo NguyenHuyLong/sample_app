@@ -6,8 +6,10 @@ Rails.application.routes.draw do
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
+
   resources :users, path_names: {new: "signup"}
   resources :account_activations, only: :edit
   resources :password_resets, except: [:index, :destroy, :show]
   resources :microposts, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy, :index]
 end
